@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "client")
+@Table(name = "account")
 public class Account implements Serializable {
 
     @Serial

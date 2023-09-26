@@ -16,6 +16,8 @@ create table account (
 create table operations (
  id serial primary key,
  type_operation int not null,
+ agency int not null,
+ number_account varchar(10)not null,
  value_operation numeric not null,
  time_operation timestamp not null,
  id_account int not null references account(id)

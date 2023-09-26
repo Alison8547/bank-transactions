@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "client")
+@Table(name = "operations")
 public class Operation implements Serializable {
 
     @Serial
@@ -31,6 +31,12 @@ public class Operation implements Serializable {
     @Column(name = "type_operation")
     @Enumerated(EnumType.ORDINAL)
     private TypeOperation typeOperation;
+
+    @Column(name = "agency")
+    private Integer agency;
+
+    @Column(name = "number_account")
+    private String numberAccount;
 
     @Column(name = "value_operation")
     private BigDecimal valueOperation;
