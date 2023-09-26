@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,5 +45,8 @@ public class Account implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_client")
     private Client client;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Operation> operations = new ArrayList<>();
 
 }
