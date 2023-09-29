@@ -27,11 +27,24 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password_client")
+    private String password;
+
     @Column(name = "cpf")
     private String cpf;
 
     @Column(name = "full_name")
     private String fullName;
+
+    @Column(name = "id_cargo", updatable = false, insertable = false)
+    private Integer idCargo;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cargo")
+    private Cargo cargo;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Account> accounts = new ArrayList<>();

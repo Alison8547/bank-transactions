@@ -3,6 +3,8 @@ package com.br.bank.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,5 +23,8 @@ public class Cargo {
 
     @Column(name = "name_cargo")
     private String name;
+
+    @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL)
+    private List<Client> clients = new ArrayList<>();
 
 }
