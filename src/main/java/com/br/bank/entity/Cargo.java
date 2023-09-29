@@ -1,8 +1,11 @@
 package com.br.bank.entity;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +17,10 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @Table(name = "cargo")
-public class Cargo {
+public class Cargo implements Serializable, GrantedAuthority {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id")
@@ -27,4 +33,8 @@ public class Cargo {
     @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL)
     private List<Client> clients = new ArrayList<>();
 
+    @Override
+    public String getAuthority() {
+        return name;
+    }
 }
