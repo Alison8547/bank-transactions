@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -59,9 +60,9 @@ public class TokenService {
 
         String idUser = chaves.get(Claims.ID, String.class);
 
-        List<String> cargos = chaves.get(KEY_CARGO, List.class);
+        String cargos = chaves.get(KEY_CARGO, String.class);
 
-        List<SimpleGrantedAuthority> cargosList = cargos.stream()
+        List<SimpleGrantedAuthority> cargosList = Stream.of(cargos)
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 
