@@ -14,7 +14,8 @@ import java.math.BigDecimal;
 public class AccountResponse {
 
     private Integer id;
-    private Integer agency;
+    private String agency;
+    private String bankNumber;
     private String numberAccount;
     private BigDecimal balance;
     private Integer active;

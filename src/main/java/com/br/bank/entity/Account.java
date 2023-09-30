@@ -28,7 +28,10 @@ public class Account implements Serializable {
     private Integer id;
 
     @Column(name = "agency")
-    private Integer agency;
+    private String agency;
+
+    @Column(name = "bank_number")
+    private String bankNumber;
 
     @Column(name = "number_account")
     private String numberAccount;

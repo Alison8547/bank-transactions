@@ -8,6 +8,7 @@ import com.br.bank.mapper.ClientMapper;
 import com.br.bank.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +40,21 @@ public class ClientService {
         return mapper.toResponseClient(client);
     }
 
+    public Integer getIdLoggedUser() {
+        return Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+    }
 
     public Client findEmail(String email) {
         return clientRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessException("Email not found!"));
+    }
+
+    public Client findCpf(String cpf) {
+        return clientRepository.findByCpf(cpf)
+                .orElseThrow(() -> new BusinessException("Client not found!"));
+    }
+
+    public boolean existCpfClient(String cpf) {
+        return clientRepository.existsByCpf(cpf);
     }
 }
