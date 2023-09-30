@@ -28,4 +28,9 @@ public class AccountController {
     public ResponseEntity<AccountResponse> disabledAccount() {
         return new ResponseEntity<>(accountService.disabledAccount(), HttpStatus.OK);
     }
+
+    @PutMapping("/active-account")
+    public ResponseEntity<AccountResponse> activeAccount() {
+        return new ResponseEntity<>(accountService.activeAccount(), HttpStatus.OK);
+    }
 }

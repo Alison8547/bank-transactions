@@ -68,6 +68,16 @@ public class AccountService {
         return mapper.toResponseAccount(accountClient);
     }
 
+    public AccountResponse activeAccount() {
+        Integer clientLogged = clientService.getIdLoggedUser();
+        Account accountClient = accountRepository.findByIdClient(clientLogged);
+        accountClient.setActive(ACTIVE_ACCOUNT);
+
+        accountRepository.save(accountClient);
+
+        return mapper.toResponseAccount(accountClient);
+    }
+
 
     public String randomNumberAccount() {
         String generateUUIDNo = String.format("%010d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));

@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authz) ->
                         authz.antMatchers("/auth", "/create-client", "/create-account").permitAll()
                                 .antMatchers("/disabled-account").hasAnyRole("ADMIN", "CLIENT")
+                                .antMatchers("/active-account").hasAnyRole("ADMIN", "CLIENT")
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
