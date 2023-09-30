@@ -38,6 +38,10 @@ public class AccountService {
 
         Client client = clientService.findCpf(cpfRequest.getCpf());
 
+        if (accountRepository.existsByIdClient(client.getId())) {
+            throw new BusinessException("There is already an account with this CPF!");
+        }
+
         Account newAccount = Account.builder()
                 .agency(AGENCY)
                 .bankNumber(BANK_NUMBER)
