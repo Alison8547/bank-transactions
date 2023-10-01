@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface AgencyRepository extends JpaRepository<Agency, Integer> {
 
     Optional<Agency> findByNumberAgency(Integer numberAgency);
+
+    boolean existsByNumberAgency(Integer numberAgency);
 }

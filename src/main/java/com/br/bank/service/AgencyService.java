@@ -17,4 +17,8 @@ public class AgencyService {
         return agencyRepository.findByNumberAgency(numberAgency)
                 .orElseThrow(() -> new BusinessException("Agency does not exist!"));
     }
+
+    public boolean existsNumberAgency(Integer numberAgency) {
+        return agencyRepository.existsByNumberAgency(numberAgency);
+    }
 }

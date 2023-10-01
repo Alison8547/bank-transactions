@@ -3,6 +3,7 @@ package com.br.bank.service;
 import com.br.bank.dto.request.AccountRequest;
 import com.br.bank.dto.response.AccountResponse;
 import com.br.bank.entity.Account;
+import com.br.bank.entity.Agency;
 import com.br.bank.entity.Client;
 import com.br.bank.exception.BusinessException;
 import com.br.bank.mapper.AccountMapper;
@@ -24,6 +25,7 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper mapper;
     private final ClientService clientService;
+    private final AgencyService agencyService;
     private static final BigDecimal BALANCE_INITIAL = new BigDecimal(0);
     private static final Integer ACTIVE_ACCOUNT = 1;
     private static final Integer DISABLED_ACCOUNT = 0;
@@ -35,6 +37,12 @@ public class AccountService {
             throw new BusinessException("CPF is not registered in our app!");
         }
 
+        if (!(agencyService.existsNumberAgency(accountRequest.getNumberAgency()))) {
+            throw new BusinessException("Agency does not exist!");
+        }
+
+        Agency agency = agencyService.findAgency(accountRequest.getNumberAgency());
+
         Client client = clientService.findCpf(accountRequest.getCpf());
 
         Account newAccount = Account.builder()
@@ -42,9 +50,9 @@ public class AccountService {
                 .balance(BALANCE_INITIAL.setScale(2, RoundingMode.CEILING))
                 .active(ACTIVE_ACCOUNT)
                 .idClient(client.getId())
-      //  TODO        .idAgency()
+                .idAgency(agency.getId())
                 .client(client)
-          //  TODO    .agency()
+                .agency(agency)
                 .build();
 
         accountRepository.save(newAccount);
