@@ -1,6 +1,6 @@
 package com.br.bank.service;
 
-import com.br.bank.dto.request.CpfRequest;
+import com.br.bank.dto.request.AccountRequest;
 import com.br.bank.dto.response.AccountResponse;
 import com.br.bank.entity.Account;
 import com.br.bank.entity.Client;
@@ -24,32 +24,27 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper mapper;
     private final ClientService clientService;
-    private static final String AGENCY = "0001";
-    private static final String BANK_NUMBER = "0260";
     private static final BigDecimal BALANCE_INITIAL = new BigDecimal(0);
     private static final Integer ACTIVE_ACCOUNT = 1;
     private static final Integer DISABLED_ACCOUNT = 0;
 
 
-    public AccountResponse createAccount(CpfRequest cpfRequest) {
-        if (!(clientService.existCpfClient(cpfRequest.getCpf()))) {
-            throw new BusinessException("CPF is not registered in our bank account!");
+    public AccountResponse createAccount(AccountRequest accountRequest) {
+
+        if (!(clientService.existCpfClient(accountRequest.getCpf()))) {
+            throw new BusinessException("CPF is not registered in our app!");
         }
 
-        Client client = clientService.findCpf(cpfRequest.getCpf());
-
-        if (accountRepository.existsByIdClient(client.getId())) {
-            throw new BusinessException("There is already an account with this CPF!");
-        }
+        Client client = clientService.findCpf(accountRequest.getCpf());
 
         Account newAccount = Account.builder()
-                .agency(AGENCY)
-                .bankNumber(BANK_NUMBER)
                 .numberAccount(randomNumberAccount())
                 .balance(BALANCE_INITIAL.setScale(2, RoundingMode.CEILING))
                 .active(ACTIVE_ACCOUNT)
                 .idClient(client.getId())
+      //  TODO        .idAgency()
                 .client(client)
+          //  TODO    .agency()
                 .build();
 
         accountRepository.save(newAccount);
