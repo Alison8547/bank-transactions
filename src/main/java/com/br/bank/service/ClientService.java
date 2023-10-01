@@ -54,6 +54,11 @@ public class ClientService {
                 .orElseThrow(() -> new BusinessException("Client not found!"));
     }
 
+    public Client findClient(Integer id) {
+        return clientRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Client not found!"));
+    }
+
     public boolean existCpfClient(String cpf) {
         return clientRepository.existsByCpf(cpf);
     }

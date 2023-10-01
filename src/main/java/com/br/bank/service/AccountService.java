@@ -78,6 +78,13 @@ public class AccountService {
         return mapper.toResponseAccount(accountClient);
     }
 
+    public Account findByIdClient(Integer id) {
+        return accountRepository.findByIdClient(id);
+    }
+
+    public boolean existNumberAccount(String numberAccount) {
+        return accountRepository.existsByNumberAccount(numberAccount);
+    }
 
     public String randomNumberAccount() {
         String generateUUIDNo = String.format("%010d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));

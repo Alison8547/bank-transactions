@@ -1,6 +1,5 @@
 package com.br.bank.dto.request;
 
-import com.br.bank.enums.TypeOperation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +15,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OperationRequest {
 
-    @NotNull
-    private TypeOperation typeOperation;
 
     @NotNull
     private Integer agency;
