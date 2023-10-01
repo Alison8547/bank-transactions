@@ -32,9 +32,6 @@ public class Operation implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private TypeOperation typeOperation;
 
-    @Column(name = "agency")
-    private Integer agency;
-
     @Column(name = "number_account")
     private String numberAccount;
 
@@ -46,6 +43,14 @@ public class Operation implements Serializable {
 
     @Column(name = "id_account", updatable = false, insertable = false)
     private Integer idAccount;
+
+
+    @Column(name = "id_agency", updatable = false, insertable = false)
+    private Integer idAgency;
+
+    @ManyToOne
+    @JoinColumn(name = "id_agency")
+    private Agency agency;
 
     @ManyToOne
     @JoinColumn(name = "id_account")
