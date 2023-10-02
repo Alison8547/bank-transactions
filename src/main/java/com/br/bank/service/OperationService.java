@@ -1,6 +1,7 @@
 package com.br.bank.service;
 
 import com.br.bank.dto.request.OperationRequest;
+import com.br.bank.dto.request.WithdrawRequest;
 import com.br.bank.dto.response.OperationResponse;
 import com.br.bank.entity.Account;
 import com.br.bank.entity.Operation;
@@ -56,6 +57,27 @@ public class OperationService {
         log.info("Save operation success!");
 
         account.setBalance(operation.getValueOperation().add(account.getBalance()));
+        accountService.save(account);
+        log.info("Update balance account success!");
+
+        return mapper.toResponseOperation(operation);
+    }
+
+    public OperationResponse withdraw(WithdrawRequest withdrawRequest) {
+        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+        Operation operation = mapper.toEntityOperation(withdrawRequest);
+
+        if (withdrawRequest.getValueOperation().doubleValue() > account.getBalance().doubleValue()) {
+            throw new BusinessException("Your withdrawal is bigger than the money you have!");
+        }
+
+        operation.setTypeOperation(TypeOperation.WITHDRAW);
+        operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        operation.setValueOperation(withdrawRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
+        operation.setIdAccount(account.getId());
+        operation.setAccount(account);
+
+        account.setBalance(operation.getValueOperation().subtract(account.getBalance()));
         accountService.save(account);
         log.info("Update balance account success!");
 
