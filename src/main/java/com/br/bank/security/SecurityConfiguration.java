@@ -32,7 +32,8 @@ public class SecurityConfiguration {
                         authz.antMatchers("/auth", "/create-client", "/create-account").permitAll()
                                 .antMatchers("/disabled-account").hasAnyRole("ADMIN", "CLIENT")
                                 .antMatchers("/active-account").hasAnyRole("ADMIN", "CLIENT")
-                                .antMatchers("/create-deposit").hasAnyRole("ADMIN", "CLIENT")
+                                .antMatchers("/deposit").hasAnyRole("ADMIN", "CLIENT")
+                                .antMatchers("/withdraw").hasAnyRole("ADMIN", "CLIENT")
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

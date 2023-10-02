@@ -32,9 +32,6 @@ public class Operation implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private TypeOperation typeOperation;
 
-    @Column(name = "number_account")
-    private String numberAccount;
-
     @Column(name = "value_operation")
     private BigDecimal valueOperation;
 

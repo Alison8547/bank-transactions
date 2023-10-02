@@ -1,6 +1,7 @@
 package com.br.bank.controller;
 
 import com.br.bank.dto.request.OperationRequest;
+import com.br.bank.dto.request.WithdrawRequest;
 import com.br.bank.dto.response.OperationResponse;
 import com.br.bank.service.OperationService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,13 @@ public class OperationController {
 
     private final OperationService operationService;
 
-    @PostMapping("/create-deposit")
+    @PostMapping("/deposit")
     public ResponseEntity<OperationResponse> deposit(@Valid @RequestBody OperationRequest operationRequest) {
         return new ResponseEntity<>(operationService.deposit(operationRequest), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/withdraw")
+    public ResponseEntity<OperationResponse> deposit(@Valid @RequestBody WithdrawRequest withdrawRequest) {
+        return new ResponseEntity<>(operationService.withdraw(withdrawRequest), HttpStatus.CREATED);
     }
 }

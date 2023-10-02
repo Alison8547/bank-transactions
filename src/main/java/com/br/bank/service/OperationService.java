@@ -53,6 +53,7 @@ public class OperationService {
         operation.setIdAccount(account.getId());
         operation.setAccount(account);
 
+
         operationRepository.save(operation);
         log.info("Save operation success!");
 
@@ -77,7 +78,11 @@ public class OperationService {
         operation.setIdAccount(account.getId());
         operation.setAccount(account);
 
-        account.setBalance(operation.getValueOperation().subtract(account.getBalance()));
+
+        operationRepository.save(operation);
+        log.info("Save operation success!");
+
+        account.setBalance(account.getBalance().subtract(operation.getValueOperation()));
         accountService.save(account);
         log.info("Update balance account success!");
 
