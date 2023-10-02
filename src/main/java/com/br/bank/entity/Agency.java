@@ -30,6 +30,4 @@ public class Agency {
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
     private List<Account> accountList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
-//    private List<Operation> operationList = new ArrayList<>();
 }
