@@ -34,8 +34,7 @@ create table operations (
     number_account  varchar(10) not null,
     value_operation numeric     not null,
     time_operation  timestamp   not null,
-    id_account      int         not null references account (id),
-    id_agency       int         not null references agency (id)
+    id_account      int         not null references account (id)
 );
 
 INSERT INTO agency(id, number_agency, name_agency)
