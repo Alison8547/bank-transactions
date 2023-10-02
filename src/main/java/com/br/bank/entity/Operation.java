@@ -45,12 +45,12 @@ public class Operation implements Serializable {
     private Integer idAccount;
 
 
-    @Column(name = "id_agency", updatable = false, insertable = false)
-    private Integer idAgency;
-
-    @ManyToOne
-    @JoinColumn(name = "id_agency")
-    private Agency agency;
+//    @Column(name = "id_agency", updatable = false, insertable = false)
+//    private Integer idAgency;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "id_agency")
+//    private Agency agency;
 
     @ManyToOne
     @JoinColumn(name = "id_account")

@@ -94,5 +94,7 @@ public class AccountService {
         return generateUUIDNo.substring(generateUUIDNo.length() - 9);
     }
 
-
+    public void save(Account account) {
+        accountRepository.save(account);
+    }
 }

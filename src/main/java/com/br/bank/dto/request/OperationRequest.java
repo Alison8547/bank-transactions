@@ -17,7 +17,7 @@ public class OperationRequest {
 
 
     @NotNull
-    private Integer agency;
+    private Integer numberAgency;
 
     @NotBlank
     private String numberAccount;
