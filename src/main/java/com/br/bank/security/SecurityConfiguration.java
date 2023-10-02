@@ -34,6 +34,7 @@ public class SecurityConfiguration {
                                 .antMatchers("/active-account").hasAnyRole("ADMIN", "CLIENT")
                                 .antMatchers("/deposit").hasAnyRole("ADMIN", "CLIENT")
                                 .antMatchers("/withdraw").hasAnyRole("ADMIN", "CLIENT")
+                                .antMatchers("/transfer").hasAnyRole("ADMIN", "CLIENT")
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

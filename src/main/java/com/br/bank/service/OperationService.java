@@ -99,7 +99,7 @@ public class OperationService {
 
         validationsOperation(operationRequest, account);
 
-        operation.setTypeOperation(TypeOperation.WITHDRAW);
+        operation.setTypeOperation(TypeOperation.TRANSFER);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(operationRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
         operation.setIdAccount(account.getId());
@@ -116,7 +116,7 @@ public class OperationService {
 
         Account accountTransfer = accountService.findByAccountNumber(operationRequest.getNumberAccount());
 
-        accountTransfer.setBalance(operation.getValueOperation().add(account.getBalance()));
+        accountTransfer.setBalance(operationRequest.getValueOperation().add(accountTransfer.getBalance()));
         accountService.save(accountTransfer);
         log.info("Transfer success for client: {}", accountTransfer.getClient().getFullName());
 

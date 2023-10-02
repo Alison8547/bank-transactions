@@ -32,4 +32,9 @@ public class OperationController {
     public ResponseEntity<OperationResponse> deposit(@Valid @RequestBody WithdrawRequest withdrawRequest) {
         return new ResponseEntity<>(operationService.withdraw(withdrawRequest), HttpStatus.CREATED);
     }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<OperationResponse> transfer(@Valid @RequestBody OperationRequest operationRequest) {
+        return new ResponseEntity<>(operationService.transfer(operationRequest), HttpStatus.CREATED);
+    }
 }
