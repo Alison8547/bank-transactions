@@ -89,6 +89,11 @@ public class AccountService {
         return accountRepository.existsByNumberAccount(numberAccount);
     }
 
+    public Account findByAccountNumber(String accountNumber) {
+        return accountRepository.findByNumberAccount(accountNumber)
+                .orElseThrow(() -> new BusinessException("Account not exist!"));
+    }
+
     public String randomNumberAccount() {
         String generateUUIDNo = String.format("%010d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
         return generateUUIDNo.substring(generateUUIDNo.length() - 9);
