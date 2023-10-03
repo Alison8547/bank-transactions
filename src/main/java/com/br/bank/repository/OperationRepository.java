@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface OperationRepository extends JpaRepository<Operation, Integer> {
 
     Optional<List<Operation>> findAllByTimeOperationBetween(LocalDateTime start, LocalDateTime end);
+
+    Optional<Operation> findByIdAccount(Integer idAccount);
 }

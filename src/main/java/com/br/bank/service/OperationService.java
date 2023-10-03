@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -108,6 +109,14 @@ public class OperationService {
         return mapper.toResponseOperation(operation);
     }
 
+
+    public List<OperationResponse> consultExtract(LocalDateTime start, LocalDateTime end) {
+        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+
+        // TODO
+        return null;
+
+    }
 
     private void validationsOperationsDeposit(OperationRequest operationRequest, Account account) {
         if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
