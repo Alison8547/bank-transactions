@@ -59,13 +59,7 @@ public class OperationService {
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
         Operation operation = mapper.toEntityOperation(withdrawRequest);
 
-        if (withdrawRequest.getValueOperation().doubleValue() > account.getBalance().doubleValue()) {
-            throw new BusinessException("Your withdrawal is bigger than the money you have!");
-        }
-
-        if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
-            throw new BusinessException("Account blocked, it is not possible to make a deposit!");
-        }
+        validationsOperationsWithdraw(withdrawRequest, account);
 
         operation.setTypeOperation(TypeOperation.WITHDRAW);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
@@ -126,6 +120,17 @@ public class OperationService {
 
         if (!(agencyService.existsNumberAgency(operationRequest.getNumberAgency()))) {
             throw new BusinessException("Not exist number agency!");
+        }
+    }
+
+
+    private static void validationsOperationsWithdraw(WithdrawRequest withdrawRequest, Account account) {
+        if (withdrawRequest.getValueOperation().doubleValue() > account.getBalance().doubleValue()) {
+            throw new BusinessException("Your withdrawal is bigger than the money you have!");
+        }
+
+        if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
+            throw new BusinessException("Account blocked, it is not possible to make a deposit!");
         }
     }
 
