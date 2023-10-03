@@ -129,6 +129,10 @@ public class OperationService {
             throw new BusinessException("Your withdrawal is bigger than the money you have!");
         }
 
+        if (withdrawRequest.getValueOperation().doubleValue() > 2000.00) {
+            throw new BusinessException("You have exceeded the withdrawal limit, which is R$2,200.00!");
+        }
+
         if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
             throw new BusinessException("Account blocked, it is not possible to make a deposit!");
         }
