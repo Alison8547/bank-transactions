@@ -36,17 +36,7 @@ public class OperationService {
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
         Operation operation = mapper.toEntityOperation(operationRequest);
 
-        if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
-            throw new BusinessException("Account blocked, it is not possible to make a deposit!");
-        }
-
-        if (!(accountService.existNumberAccount(operationRequest.getNumberAccount()))) {
-            throw new BusinessException("Not exist number account!");
-        }
-
-        if (!(agencyService.existsNumberAgency(operationRequest.getNumberAgency()))) {
-            throw new BusinessException("Not exist number agency!");
-        }
+        validationsOperationsDeposit(operationRequest, account);
         operation.setTypeOperation(TypeOperation.DEPOSIT);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(operationRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
@@ -63,6 +53,7 @@ public class OperationService {
 
         return mapper.toResponseOperation(operation);
     }
+
 
     public OperationResponse withdraw(WithdrawRequest withdrawRequest) {
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
@@ -97,7 +88,7 @@ public class OperationService {
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
         Operation operation = mapper.toEntityOperation(operationRequest);
 
-        validationsOperation(operationRequest, account);
+        validationsOperationTransfer(operationRequest, account);
 
         operation.setTypeOperation(TypeOperation.TRANSFER);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
@@ -123,7 +114,22 @@ public class OperationService {
         return mapper.toResponseOperation(operation);
     }
 
-    private void validationsOperation(OperationRequest operationRequest, Account account) {
+
+    private void validationsOperationsDeposit(OperationRequest operationRequest, Account account) {
+        if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
+            throw new BusinessException("Account blocked, it is not possible to make a deposit!");
+        }
+
+        if (!(accountService.existNumberAccount(operationRequest.getNumberAccount()))) {
+            throw new BusinessException("Not exist number account!");
+        }
+
+        if (!(agencyService.existsNumberAgency(operationRequest.getNumberAgency()))) {
+            throw new BusinessException("Not exist number agency!");
+        }
+    }
+
+    private void validationsOperationTransfer(OperationRequest operationRequest, Account account) {
         if (operationRequest.getValueOperation().doubleValue() > account.getBalance().doubleValue()) {
             throw new BusinessException("Your transfer is bigger than the money you have!");
         }
