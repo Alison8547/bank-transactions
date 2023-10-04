@@ -112,10 +112,17 @@ public class OperationService {
 
     public List<OperationResponse> consultExtract(LocalDateTime start, LocalDateTime end) {
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+        Operation operation = findByAccount(account.getId());
 
-        // TODO
-        return null;
+        return operationRepository.findAllByTimeOperationBetweenAndId(start, end, operation.getId()).stream()
+                .map(mapper::toResponseOperation)
+                .toList();
 
+    }
+
+    public Operation findByAccount(Integer idAccount) {
+        return operationRepository.findByIdAccount(idAccount)
+                .orElseThrow(() -> new BusinessException("there is no such account!"));
     }
 
     private void validationsOperationsDeposit(OperationRequest operationRequest, Account account) {
