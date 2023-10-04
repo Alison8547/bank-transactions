@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -87,6 +88,7 @@ public class OperationService {
 
         operation.setTypeOperation(TypeOperation.TRANSFER);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        operation.setDateOperation(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(operationRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
         operation.setIdAccount(account.getId());
         operation.setAccount(account);

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -39,7 +40,7 @@ public class Operation implements Serializable {
     private LocalDateTime timeOperation;
 
     @Column(name = "date_operation")
-    private LocalDateTime dateOperation;
+    private LocalDate dateOperation;
 
     @Column(name = "id_account", updatable = false, insertable = false)
     private Integer idAccount;
