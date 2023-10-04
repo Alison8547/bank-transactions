@@ -38,6 +38,9 @@ public class Operation implements Serializable {
     @Column(name = "time_operation")
     private LocalDateTime timeOperation;
 
+    @Column(name = "date_operation")
+    private LocalDateTime dateOperation;
+
     @Column(name = "id_account", updatable = false, insertable = false)
     private Integer idAccount;
 
