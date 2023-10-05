@@ -17,7 +17,6 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -41,6 +40,7 @@ public class OperationService {
         validationsOperationsDeposit(operationRequest, account);
         operation.setTypeOperation(TypeOperation.DEPOSIT);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        operation.setDateOperation(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(operationRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
         operation.setIdAccount(account.getId());
         operation.setAccount(account);
@@ -65,6 +65,7 @@ public class OperationService {
 
         operation.setTypeOperation(TypeOperation.WITHDRAW);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        operation.setDateOperation(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(withdrawRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
         operation.setIdAccount(account.getId());
         operation.setAccount(account);
@@ -110,17 +111,17 @@ public class OperationService {
 
         return mapper.toResponseOperation(operation);
     }
+    // TODO
+//
+//    public List<OperationResponse> consultExtract(LocalDate start, LocalDate end) {
+//        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+//        Operation operation = findByAccount(account.getId());
+//
+//        return operationRepository.findAllByDateOperationBetweenAndId(start, end, operation.getId()).stream()
+//                .map(mapper::toResponseOperation)
+//                .toList();
 
-
-    public List<OperationResponse> consultExtract(LocalDateTime start, LocalDateTime end) {
-        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
-        Operation operation = findByAccount(account.getId());
-
-        return operationRepository.findAllByTimeOperationBetweenAndId(start, end, operation.getId()).stream()
-                .map(mapper::toResponseOperation)
-                .toList();
-
-    }
+    //   }
 
     public Operation findByAccount(Integer idAccount) {
         return operationRepository.findByIdAccount(idAccount)
@@ -139,6 +140,10 @@ public class OperationService {
         if (!(agencyService.existsNumberAgency(operationRequest.getNumberAgency()))) {
             throw new BusinessException("Not exist number agency!");
         }
+
+        if (operationRequest.getValueOperation().doubleValue() < 0) {
+            throw new BusinessException("Value cannot be negative!");
+        }
     }
 
 
@@ -153,6 +158,10 @@ public class OperationService {
 
         if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
             throw new BusinessException("Account blocked, it is not possible to make a deposit!");
+        }
+
+        if (withdrawRequest.getValueOperation().doubleValue() < 0) {
+            throw new BusinessException("Value cannot be negative!");
         }
     }
 
@@ -171,6 +180,10 @@ public class OperationService {
 
         if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
             throw new BusinessException("Account blocked, it is not possible to make a deposit!");
+        }
+
+        if (operationRequest.getValueOperation().doubleValue() < 0) {
+            throw new BusinessException("Value cannot be negative!");
         }
     }
 }
