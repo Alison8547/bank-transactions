@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface OperationRepository extends JpaRepository<Operation, Integer> {
@@ -24,8 +23,7 @@ public interface OperationRepository extends JpaRepository<Operation, Integer> {
             " from Account a" +
             " left join Operation o on o.idAccount = a.id" +
             " left join Client c on a.idClient = c.id " +
-            "where (o.dateOperation between :start and :end) and ( a.id = :idClient)")
-    List<ExtractResponse> extract(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("idClient") Integer idClient);
+            "where (o.dateOperation between :start and :end) and ( a.id = :idAccount)")
+    List<ExtractResponse> extract(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("idAccount") Integer idAccount);
 
-    Optional<Operation> findByIdAccount(Integer idAccount);
 }

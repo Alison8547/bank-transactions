@@ -2,6 +2,7 @@ package com.br.bank.service;
 
 import com.br.bank.dto.request.OperationRequest;
 import com.br.bank.dto.request.WithdrawRequest;
+import com.br.bank.dto.response.ExtractResponse;
 import com.br.bank.dto.response.OperationResponse;
 import com.br.bank.entity.Account;
 import com.br.bank.entity.Operation;
@@ -17,6 +18,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -111,22 +113,13 @@ public class OperationService {
 
         return mapper.toResponseOperation(operation);
     }
-    // TODO
-//
-//    public List<OperationResponse> consultExtract(LocalDate start, LocalDate end) {
-//        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
-//        Operation operation = findByAccount(account.getId());
-//
-//        return operationRepository.findAllByDateOperationBetweenAndId(start, end, operation.getId()).stream()
-//                .map(mapper::toResponseOperation)
-//                .toList();
 
-    //   }
 
-    public Operation findByAccount(Integer idAccount) {
-        return operationRepository.findByIdAccount(idAccount)
-                .orElseThrow(() -> new BusinessException("there is no such account!"));
+    public List<ExtractResponse> consultExtract(LocalDate start, LocalDate end) {
+        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+        return operationRepository.extract(start, end, account.getId());
     }
+
 
     private void validationsOperationsDeposit(OperationRequest operationRequest, Account account) {
         if (Objects.equals(account.getActive(), DISABLED_ACCOUNT)) {
