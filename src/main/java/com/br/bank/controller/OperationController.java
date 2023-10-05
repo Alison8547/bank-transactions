@@ -25,17 +25,17 @@ public class OperationController {
 
     @PostMapping("/deposit")
     public ResponseEntity<OperationResponse> deposit(@Valid @RequestBody OperationRequest operationRequest) {
-        return new ResponseEntity<>(operationService.deposit(operationRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(operationService.deposit(operationRequest), HttpStatus.OK);
     }
 
     @PostMapping("/withdraw")
     public ResponseEntity<OperationResponse> deposit(@Valid @RequestBody WithdrawRequest withdrawRequest) {
-        return new ResponseEntity<>(operationService.withdraw(withdrawRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(operationService.withdraw(withdrawRequest), HttpStatus.OK);
     }
 
     @PostMapping("/transfer")
     public ResponseEntity<OperationResponse> transfer(@Valid @RequestBody OperationRequest operationRequest) {
-        return new ResponseEntity<>(operationService.transfer(operationRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(operationService.transfer(operationRequest), HttpStatus.OK);
     }
 
 //    @GetMapping("/extract")
