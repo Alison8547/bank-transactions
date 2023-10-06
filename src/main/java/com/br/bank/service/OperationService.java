@@ -91,10 +91,11 @@ public class OperationService {
 
     public OperationResponse transfer(OperationRequest operationRequest) {
         Client client = clientService.findClient(clientService.getIdLoggedUser());
-        Account account = accountService.findByAccountNumber(operationRequest.getNumberAccount());
+        Account accountLogged = accountService.findByIdClient(clientService.getIdLoggedUser());
+        Account accountTransfer = accountService.findByAccountNumber(operationRequest.getNumberAccount());
         Operation operation = mapper.toEntityOperation(operationRequest);
 
-        validationsOperationTransfer(operationRequest, account);
+        validationsOperationTransfer(operationRequest, accountLogged);
 
         operation.setTypeOperation(TypeOperation.TRANSFER);
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
@@ -102,19 +103,16 @@ public class OperationService {
         operation.setValueOperation(operationRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
         operation.setIdClientOperation(client.getId());
         operation.setClient(client);
-        operation.setIdAccountDestiny(account.getId());
-        operation.setAccount(account);
+        operation.setIdAccountDestiny(accountTransfer.getId());
+        operation.setAccount(accountTransfer);
 
 
         operationRepository.save(operation);
         log.info("Save operation success!");
 
-        account.setBalance(account.getBalance().subtract(operation.getValueOperation()));
-        accountService.save(account);
+        accountLogged.setBalance(accountLogged.getBalance().subtract(operation.getValueOperation()));
+        accountService.save(accountLogged);
         log.info("Update balance account success!");
-
-
-        Account accountTransfer = accountService.findByAccountNumber(operationRequest.getNumberAccount());
 
         accountTransfer.setBalance(operationRequest.getValueOperation().add(accountTransfer.getBalance()));
         accountService.save(accountTransfer);

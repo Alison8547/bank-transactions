@@ -18,10 +18,11 @@ public interface OperationRepository extends JpaRepository<Operation, Integer> {
             " a.numberAccount, " +
             " o.typeOperation, " +
             " o.valueOperation, " +
-            " o.timeOperation" +
+            " o.timeOperation, " +
+            "a.numberAccount" +
             ")" +
             " from Account a" +
-            " left join Operation o on o.idAccount = a.id" +
+            " left join Operation o on o.idAccountDestiny = a.id" +
             " left join Client c on a.idClient = c.id " +
             "where (o.dateOperation between :start and :end) and ( a.id = :idAccount)")
     List<ExtractResponse> extract(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("idAccount") Integer idAccount);

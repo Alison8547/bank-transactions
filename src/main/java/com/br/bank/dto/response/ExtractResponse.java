@@ -19,4 +19,5 @@ public class ExtractResponse {
     private TypeOperation typeOperation;
     private BigDecimal valueOperation;
     private LocalDateTime timeOperation;
+    private String accountDestiny;
 }
