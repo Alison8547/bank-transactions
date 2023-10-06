@@ -42,11 +42,18 @@ public class Operation implements Serializable {
     @Column(name = "date_operation")
     private LocalDate dateOperation;
 
-    @Column(name = "id_account", updatable = false, insertable = false)
-    private Integer idAccount;
+    @Column(name = "id_client_operation", updatable = false, insertable = false)
+    private Integer idClientOperation;
 
     @ManyToOne
-    @JoinColumn(name = "id_account")
+    @JoinColumn(name = "id_client_operation")
+    private Client client;
+
+    @Column(name = "id_account_destiny", updatable = false, insertable = false)
+    private Integer idAccountDestiny;
+
+    @ManyToOne
+    @JoinColumn(name = "id_account_destiny")
     private Account account;
 
 }
