@@ -5,6 +5,7 @@ import com.br.bank.dto.request.WithdrawRequest;
 import com.br.bank.dto.response.ExtractResponse;
 import com.br.bank.dto.response.OperationResponse;
 import com.br.bank.entity.Account;
+import com.br.bank.entity.Client;
 import com.br.bank.entity.Operation;
 import com.br.bank.enums.TypeOperation;
 import com.br.bank.exception.BusinessException;
@@ -35,8 +36,8 @@ public class OperationService {
 
 
     public OperationResponse deposit(OperationRequest operationRequest) {
-
-        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+        Client client = clientService.findClient(clientService.getIdLoggedUser());
+        Account account = accountService.findByAccountNumber(operationRequest.getNumberAccount());
         Operation operation = mapper.toEntityOperation(operationRequest);
 
         validationsOperationsDeposit(operationRequest, account);
@@ -44,7 +45,9 @@ public class OperationService {
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         operation.setDateOperation(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(operationRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
-        operation.setIdAccount(account.getId());
+        operation.setIdClientOperation(client.getId());
+        operation.setClient(client);
+        operation.setIdAccountDestiny(account.getId());
         operation.setAccount(account);
 
 
@@ -60,6 +63,7 @@ public class OperationService {
 
 
     public OperationResponse withdraw(WithdrawRequest withdrawRequest) {
+        Client client = clientService.findClient(clientService.getIdLoggedUser());
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
         Operation operation = mapper.toEntityOperation(withdrawRequest);
 
@@ -69,7 +73,9 @@ public class OperationService {
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         operation.setDateOperation(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(withdrawRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
-        operation.setIdAccount(account.getId());
+        operation.setIdClientOperation(client.getId());
+        operation.setClient(client);
+        operation.setIdAccountDestiny(account.getId());
         operation.setAccount(account);
 
 
@@ -84,7 +90,8 @@ public class OperationService {
     }
 
     public OperationResponse transfer(OperationRequest operationRequest) {
-        Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+        Client client = clientService.findClient(clientService.getIdLoggedUser());
+        Account account = accountService.findByAccountNumber(operationRequest.getNumberAccount());
         Operation operation = mapper.toEntityOperation(operationRequest);
 
         validationsOperationTransfer(operationRequest, account);
@@ -93,7 +100,9 @@ public class OperationService {
         operation.setTimeOperation(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         operation.setDateOperation(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         operation.setValueOperation(operationRequest.getValueOperation().setScale(2, RoundingMode.CEILING));
-        operation.setIdAccount(account.getId());
+        operation.setIdClientOperation(client.getId());
+        operation.setClient(client);
+        operation.setIdAccountDestiny(account.getId());
         operation.setAccount(account);
 
 
