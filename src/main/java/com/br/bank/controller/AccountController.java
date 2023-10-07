@@ -23,7 +23,7 @@ public class AccountController {
     private final AccountService accountService;
 
 
-    @Operation(summary = "Create your account", description = "Save a person to the database")
+    @Operation(summary = "Create your account", description = "Save you account to the database")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Successfully created"),
