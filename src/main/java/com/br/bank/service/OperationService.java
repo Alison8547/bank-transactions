@@ -4,6 +4,7 @@ import com.br.bank.dto.request.OperationRequest;
 import com.br.bank.dto.request.WithdrawRequest;
 import com.br.bank.dto.response.ExtractResponse;
 import com.br.bank.dto.response.OperationResponse;
+import com.br.bank.dto.response.PageResponse;
 import com.br.bank.entity.Account;
 import com.br.bank.entity.Client;
 import com.br.bank.entity.Operation;
@@ -13,13 +14,14 @@ import com.br.bank.mapper.OperationMapper;
 import com.br.bank.repository.OperationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -122,9 +124,13 @@ public class OperationService {
     }
 
 
-    public List<ExtractResponse> consultExtract(LocalDate start, LocalDate end) {
+    public PageResponse<ExtractResponse> consultExtract(Integer page, Integer size, LocalDate start, LocalDate end) {
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
-        return operationRepository.extract(start, end, account.getId());
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        Page<ExtractResponse> extract = operationRepository.extract(start, end, account.getId(), pageRequest);
+        
+        return new PageResponse<>(extract.getTotalElements(), extract.getTotalPages(), page, size, extract.getContent());
     }
 
 

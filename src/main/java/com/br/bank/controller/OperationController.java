@@ -4,6 +4,7 @@ import com.br.bank.dto.request.OperationRequest;
 import com.br.bank.dto.request.WithdrawRequest;
 import com.br.bank.dto.response.ExtractResponse;
 import com.br.bank.dto.response.OperationResponse;
+import com.br.bank.dto.response.PageResponse;
 import com.br.bank.service.OperationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
 
 @Validated
 @RestController
@@ -80,7 +80,7 @@ public class OperationController {
             }
     )
     @GetMapping("/extract")
-    public ResponseEntity<List<ExtractResponse>> extract(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate start, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate end) {
-        return new ResponseEntity<>(operationService.consultExtract(start, end), HttpStatus.OK);
+    public ResponseEntity<PageResponse<ExtractResponse>> extract(Integer page, Integer size, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate start, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam LocalDate end) {
+        return new ResponseEntity<>(operationService.consultExtract(page, size, start, end), HttpStatus.OK);
     }
 }
