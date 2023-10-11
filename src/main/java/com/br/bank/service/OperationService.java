@@ -126,10 +126,19 @@ public class OperationService {
 
     public PageResponse<ExtractResponse> consultExtract(Integer page, Integer size, LocalDate start, LocalDate end) {
         Account account = accountService.findByIdClient(clientService.getIdLoggedUser());
+
+        if (page < 0) {
+            throw new BusinessException("page cannot be a negative value");
+        }
+
+        if (size < 0) {
+            throw new BusinessException("size cannot be a negative value");
+        }
+
         PageRequest pageRequest = PageRequest.of(page, size);
 
         Page<ExtractResponse> extract = operationRepository.extract(start, end, account.getId(), pageRequest);
-        
+
         return new PageResponse<>(extract.getTotalElements(), extract.getTotalPages(), page, size, extract.getContent());
     }
 
