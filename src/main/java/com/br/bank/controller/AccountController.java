@@ -2,6 +2,7 @@ package com.br.bank.controller;
 
 import com.br.bank.dto.request.AccountRequest;
 import com.br.bank.dto.response.AccountResponse;
+import com.br.bank.dto.response.PageResponse;
 import com.br.bank.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -63,5 +64,19 @@ public class AccountController {
     @PutMapping("/active-account")
     public ResponseEntity<AccountResponse> activeAccount() {
         return new ResponseEntity<>(accountService.activeAccount(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "List Accounts sort by balance", description = "A list Accounts of database")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Successful list Accounts"),
+                    @ApiResponse(responseCode = "400", description = "An exception was generated"),
+                    @ApiResponse(responseCode = "403", description = "You do not have permission to access this resource"),
+                    @ApiResponse(responseCode = "500", description = "An internal server exception was generated")
+            }
+    )
+    @GetMapping("/list-all-accounts")
+    public ResponseEntity<PageResponse<AccountResponse>> listAllAccounts(Integer page, Integer size) {
+        return new ResponseEntity<>(accountService.listAllAccountSortByBalance(page, size), HttpStatus.OK);
     }
 }

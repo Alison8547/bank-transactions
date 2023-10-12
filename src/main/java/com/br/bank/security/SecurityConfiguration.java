@@ -36,6 +36,7 @@ public class SecurityConfiguration {
                                 .antMatchers("/withdraw").hasAnyRole("ADMIN", "CLIENT")
                                 .antMatchers("/transfer").hasAnyRole("ADMIN", "CLIENT")
                                 .antMatchers("/extract").hasAnyRole("ADMIN", "CLIENT")
+                                .antMatchers("/list-all-accounts").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
