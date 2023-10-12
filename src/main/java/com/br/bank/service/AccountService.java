@@ -2,6 +2,7 @@ package com.br.bank.service;
 
 import com.br.bank.dto.request.AccountRequest;
 import com.br.bank.dto.response.AccountResponse;
+import com.br.bank.dto.response.PageResponse;
 import com.br.bank.entity.Account;
 import com.br.bank.entity.Agency;
 import com.br.bank.entity.Client;
@@ -10,6 +11,9 @@ import com.br.bank.mapper.AccountMapper;
 import com.br.bank.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -79,6 +83,22 @@ public class AccountService {
         accountRepository.save(accountClient);
 
         return mapper.toResponseAccount(accountClient);
+    }
+
+    public PageResponse<AccountResponse> listAllAccountSortByBalance(Integer page, Integer size) {
+
+        if (page < 0) throw new BusinessException("page cannot be a negative value");
+
+        if (size < 0) throw new BusinessException("size cannot be a negative value");
+
+        Sort sort = Sort.by("balance");
+
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+
+        Page<AccountResponse> allAccounts = accountRepository.findAll(pageRequest)
+                .map(mapper::toResponseAccount);
+
+        return new PageResponse<>(allAccounts.getTotalElements(), allAccounts.getTotalPages(), page, size, allAccounts.getContent());
     }
 
     public Account findByIdClient(Integer id) {
