@@ -1,16 +1,16 @@
 create table cargo (
-    id         serial primary key,
+    id serial primary key,
     name_cargo varchar(16) unique not null
 );
 
 create table client (
-    id              serial primary key,
-    email           varchar(100) unique not null,
-    password_client varchar(250)        not null,
-    cpf             varchar(16) unique  not null,
-    full_name       varchar(100)        not null,
-    active          int                 not null,
-    id_cargo        int                 not null references cargo (id)
+    id serial primary key,
+    email varchar(100) unique not null,
+    password_client varchar(250) not null,
+    cpf varchar(16) unique  not null,
+    full_name varchar(100)  not null,
+    active int not null,
+    id_cargo int not null references cargo (id)
 );
 
 create table agency (
@@ -19,21 +19,22 @@ create table agency (
     name_agency   text not null
 );
 
-create table account (
-    id             serial primary key,
-    number_account varchar(9) unique            not null,
-    balance        numeric check (balance >= 0) not null,
-    active         int                          not null,
-    id_client      int                          not null references client (id),
-    id_agency      int                          not null references agency (id)
+create table operations (
+   id serial primary key,
+   type_operation int not null,
+   value_operation numeric not null,
+   time_operation timestamp not null,
+   date_operation date not null,
+   id_client_operation int not null references client(id),
+   id_account_destiny int not null references account(id)
 );
 
 create table operations (
-    id              serial primary key,
-    type_operation  int         not null,
-    value_operation numeric     not null,
-    time_operation  timestamp   not null,
-    id_account      int         not null references account (id)
+    id serial primary key,
+    type_operation  int not null,
+    value_operation numeric not null,
+    time_operation  timestamp not null,
+    id_account  int not null references account (id)
 );
 
 INSERT INTO agency(id, number_agency, name_agency)
